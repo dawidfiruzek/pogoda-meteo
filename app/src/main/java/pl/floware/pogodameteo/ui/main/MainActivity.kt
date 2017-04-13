@@ -1,5 +1,6 @@
 package pl.floware.pogodameteo.ui.main
 
+import io.reactivex.Observable
 import pl.dawidfiruzek.template.util.injection.main.DaggerMainComponent
 import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseActivity
@@ -29,4 +30,10 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
     override fun clear() {
         presenter.clear()
     }
+
+    override fun getWeatherClickedIntent(): Observable<Boolean> = Observable.just(false)
+
+    override fun getCommentClickedIntent(): Observable<Boolean> = Observable.just(false)
+
+    override fun getSettingsClickedIntent(): Observable<Boolean> = Observable.just(false)
 }
