@@ -15,17 +15,38 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "pl.dawidfiruzek.pogodameteo"
+        applicationId "pl.floware.pogodameteo"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
+        versionCode Integer.parseInt(version_code)
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        develop {
+            applicationIdSuffix ".develop"
+            versionNameSuffix "-develop"
+            resValue 'string', 'app_name', 'Pogoda Meteo-develop'
+        }
+        full {
+            resValue 'string', 'app_name', 'Pogoda Meteo'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res',
+                            'src/main/res/layouts',
+                            'src/main/res/layouts/activity',
+                            'src/main/res/layouts/fragment'
+                    ]
         }
     }
 }

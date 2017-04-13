@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.dawidfiruzek.pogodameteo">
+    package="pl.floware.pogodameteo">
 
     <application
         android:allowBackup="true"

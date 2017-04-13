@@ -1,4 +1,4 @@
-package pl.dawidfiruzek.pogodameteo;
+package pl.floware.pogodameteo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

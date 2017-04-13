@@ -1,4 +1,4 @@
-package pl.dawidfiruzek.pogodameteo;
+package pl.floware.pogodameteo;
 
 import org.junit.Test;
 
