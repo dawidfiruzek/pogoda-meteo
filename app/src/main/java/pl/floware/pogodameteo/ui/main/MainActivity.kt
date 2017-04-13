@@ -59,8 +59,4 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
                 .map { it.itemId == R.id.bottom_navigation_settings }
                 .filter { it == true }
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
 }
