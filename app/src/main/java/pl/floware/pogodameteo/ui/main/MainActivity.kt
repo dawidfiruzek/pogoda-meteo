@@ -19,7 +19,8 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
     @BindView(R.id.main_bottom_navigation)
     lateinit var bottomNavigationView: BottomNavigationView
 
-    private var bottomNavigationObservable: Observable<MenuItem>? = null
+    private var bottomNavigationObservable: Observable<MenuItem> =
+        Observable.defer { RxBottomNavigationView.itemSelections(bottomNavigationView) }.share()
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -42,28 +43,21 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
     }
 
     override fun getWeatherClickedIntent(): Observable<Boolean> {
-        if (bottomNavigationObservable == null) {
-            initBottomNavigationObservable()
-        }
-        return bottomNavigationObservable!!.map { it.itemId == R.id.bottom_navigation_weather }
-    }
-
-    private fun initBottomNavigationObservable() {
-        bottomNavigationObservable = RxBottomNavigationView.itemSelections(bottomNavigationView)
+        return bottomNavigationObservable
+                .map { it.itemId == R.id.bottom_navigation_weather }
+                .filter { it == true }
     }
 
     override fun getCommentClickedIntent(): Observable<Boolean> {
-        if (bottomNavigationObservable == null) {
-            initBottomNavigationObservable()
-        }
-        return bottomNavigationObservable!!.map { it.itemId == R.id.bottom_navigation_comment }
+        return bottomNavigationObservable
+                .map { it.itemId == R.id.bottom_navigation_comment }
+                .filter { it == true }
     }
 
     override fun getSettingsClickedIntent(): Observable<Boolean> {
-        if (bottomNavigationObservable == null) {
-            initBottomNavigationObservable()
-        }
-        return bottomNavigationObservable!!.map { it.itemId == R.id.bottom_navigation_settings }
+        return bottomNavigationObservable
+                .map { it.itemId == R.id.bottom_navigation_settings }
+                .filter { it == true }
     }
 
     override fun onResume() {
