@@ -69,8 +69,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.1'
     //Leak Canary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
     //RxPermissions
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.8.0@aar'
     //Dagger2
