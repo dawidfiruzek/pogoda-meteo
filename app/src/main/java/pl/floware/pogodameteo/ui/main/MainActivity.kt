@@ -19,7 +19,7 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
     @BindView(R.id.main_bottom_navigation)
     lateinit var bottomNavigationView: BottomNavigationView
 
-    private var bottomNavigationObservable: Observable<MenuItem> =
+    private val bottomNavigationObservable: Observable<MenuItem> =
         Observable.defer { RxBottomNavigationView.itemSelections(bottomNavigationView) }.share()
 
     override fun getLayoutId(): Int = R.layout.activity_main
