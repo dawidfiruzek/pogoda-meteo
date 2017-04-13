@@ -1,21 +1,29 @@
 package pl.floware.pogodameteo.ui.main
 
+import pl.dawidfiruzek.template.util.injection.main.DaggerMainComponent
 import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseActivity
+import pl.floware.pogodameteo.util.injection.main.MainModule
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
+
+    @Inject
+    lateinit var presenter: MainContract.Presenter
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initDaggerComponent() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DaggerMainComponent.builder()
+                .appComponent(getAppComponent())
+                .mainModule(MainModule())
+                .build()
+                .inject(this)
     }
 
     override fun init() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun clear() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
