@@ -50,7 +50,9 @@ android {
         }
     }
 }
-
+kapt {
+    generateStubs = true
+}
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -79,4 +81,7 @@ dependencies {
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    //RxBinding
+    compile "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding_version"
+    compile "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxbinding_version"
 }

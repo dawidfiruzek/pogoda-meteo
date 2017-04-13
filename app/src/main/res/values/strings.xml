@@ -1,3 +1,5 @@
 <resources>
-
+    <string name="bottom_navigation_weather">Weather</string>
+    <string name="bottom_navigation_comment">Comment</string>
+    <string name="bottom_navigation_settings">Settings</string>
 </resources>
