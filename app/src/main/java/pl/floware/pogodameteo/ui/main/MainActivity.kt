@@ -6,7 +6,7 @@ import pl.floware.pogodameteo.ui.BaseActivity
 import pl.floware.pogodameteo.util.injection.main.MainModule
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
 
     @Inject
     lateinit var presenter: MainContract.Presenter
@@ -22,8 +22,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun init() {
+        presenter.attachView(this)
+        presenter.attachRouter(this)
     }
 
     override fun clear() {
+        presenter.clear()
     }
 }

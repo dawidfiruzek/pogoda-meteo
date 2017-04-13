@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import butterknife.ButterKnife
 import pl.floware.pogodameteo.BaseMeteoApp
+import pl.floware.pogodameteo.MeteoApp
 import pl.floware.pogodameteo.util.injection.app.AppComponent
 import java.lang.ClassCastException
 
@@ -35,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun getAppComponent(): AppComponent {
         try {
-            return (application as BaseMeteoApp).appComponent
+            return (application as MeteoApp).appComponent
         } catch (e: ClassCastException) {
             throw ClassCastException("Application has to extends " + BaseMeteoApp::class.java.simpleName)
         }
