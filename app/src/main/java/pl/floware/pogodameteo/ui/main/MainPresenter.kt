@@ -6,25 +6,30 @@ import pl.floware.pogodameteo.ui.BasePresenter
 import timber.log.Timber
 
 class MainPresenter(
+        val mainInteractor: MainInteractor,
         val compositeDisposable: CompositeDisposable)
     : BasePresenter<MainContract.View, MainContract.Router>(), MainContract.Presenter {
 
     override fun initBindings() {
         val weather: Observable<MainViewModel> = getDeferObservable { view?.getWeatherClickedIntent() }
-                .map { MainViewModel() }
-                .doOnNext { Timber.d("weather clicked") }
-                .doOnError { Timber.e(it) }
+                .doOnNext { Timber.i("weather clicked") }
+                .flatMap { mainInteractor.getWeatherObservable() }
+                .onErrorReturn { MainViewModel.getErrorModel() }
         val comment: Observable<MainViewModel> = getDeferObservable { view?.getCommentClickedIntent() }
-                .map { MainViewModel() }
-                .doOnNext { Timber.d("comment clicked") }
-                .doOnError { Timber.e(it) }
+                .doOnNext { Timber.i("comment clicked") }
+                .flatMap{ mainInteractor.getCommentObservable() }
+                .onErrorReturn { MainViewModel.getErrorModel() }
         val settings: Observable<MainViewModel> = getDeferObservable { view?.getSettingsClickedIntent() }
-                .map { MainViewModel() }
-                .doOnNext { Timber.d("settings clicked") }
-                .doOnError { Timber.e(it) }
+                .doOnNext { Timber.i("settings clicked") }
+                .flatMap { mainInteractor.getSettingsObservable() }
+                .onErrorReturn { MainViewModel.getErrorModel() }
 
         compositeDisposable.add(Observable.merge(weather, comment, settings)
-                .subscribe())
+                .subscribe(
+                        { Timber.d(it.toString()) },
+                        { Timber.e(it) }))
+
+        //todo add state reducer with init state
     }
 
     override fun clear() {
