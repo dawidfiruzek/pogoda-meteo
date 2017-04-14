@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import pl.floware.pogodameteo.BaseMeteoApp
 import pl.floware.pogodameteo.util.configuration.Configuration
 import pl.floware.pogodameteo.util.configuration.ConfigurationImpl
@@ -21,4 +22,7 @@ class AppModule(val application: BaseMeteoApp) {
 
     @Provides
     fun provideResourceProvider(): ResourceProvider = ResourceProviderImpl(application)
+
+    @Provides
+    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 }

@@ -35,7 +35,7 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
     override fun init() {
         presenter.attachView(this)
         presenter.attachRouter(this)
-        presenter.init()
+        presenter.initBindings()
     }
 
     override fun clear() {

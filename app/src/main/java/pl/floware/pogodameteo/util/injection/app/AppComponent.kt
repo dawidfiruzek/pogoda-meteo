@@ -1,6 +1,7 @@
 package pl.floware.pogodameteo.util.injection.app
 
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 import pl.floware.pogodameteo.util.configuration.Configuration
 import pl.floware.pogodameteo.util.configuration.ResourceProvider
 import javax.inject.Singleton
@@ -16,5 +17,6 @@ interface AppComponent {
     //region AppModule
     fun getConfiguration(): Configuration
     fun getResourceProvider(): ResourceProvider
+    fun getCompositeDisposable(): CompositeDisposable
     //endregion
 }
