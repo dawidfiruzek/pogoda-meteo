@@ -29,5 +29,4 @@ abstract class BasePresenter<V : BaseContract.View, R : BaseContract.Router> : B
     }
 
     fun <T> getDeferObservable(observable: () -> Observable<T>?): Observable<T> = Observable.defer { observable() }
-
 }
