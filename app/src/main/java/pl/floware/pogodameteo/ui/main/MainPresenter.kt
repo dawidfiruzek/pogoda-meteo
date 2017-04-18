@@ -29,7 +29,7 @@ class MainPresenter(
                         { Timber.d(it.toString()) },
                         { Timber.e(it) }))
 
-        //todo add state reducer with init state
+        //todo add state reducer with last state
     }
 
     override fun clear() {

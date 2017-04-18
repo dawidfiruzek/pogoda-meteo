@@ -42,6 +42,7 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
         presenter.clear()
     }
 
+    //region Intents
     override fun getWeatherClickedIntent(): Observable<Boolean> {
         return bottomNavigationObservable
                 .map { it.itemId == R.id.bottom_navigation_weather }
@@ -59,4 +60,5 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
                 .map { it.itemId == R.id.bottom_navigation_settings }
                 .filter { it == true }
     }
+    //endregion
 }
