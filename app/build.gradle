@@ -50,7 +50,9 @@ android {
         }
     }
 }
-
+kapt {
+    generateStubs = true
+}
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,7 +60,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile "com.android.support:appcompat-v7:$support_version"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
     //Mockito
     testCompile 'org.mockito:mockito-core:2.5.0'
@@ -79,4 +80,7 @@ dependencies {
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    //RxBinding
+    compile "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding_version"
+    compile "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxbinding_version"
 }

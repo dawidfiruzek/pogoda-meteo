@@ -1,5 +1,7 @@
 package pl.floware.pogodameteo.ui
 
+import io.reactivex.Observable
+
 abstract class BasePresenter<V : BaseContract.View, R : BaseContract.Router> : BaseContract.Presenter<V, R> {
 
     protected var view: V? = null
@@ -25,4 +27,6 @@ abstract class BasePresenter<V : BaseContract.View, R : BaseContract.Router> : B
         detachView()
         detachRouter()
     }
+
+    fun <T> getDeferObservable(observable: () -> Observable<T>?): Observable<T> = Observable.defer { observable() }
 }

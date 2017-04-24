@@ -11,7 +11,7 @@ interface BaseContract {
         fun attachRouter(router: R)
         fun detachView()
         fun detachRouter()
-        fun init()
+        fun initBindings()
         fun clear()
     }
 }

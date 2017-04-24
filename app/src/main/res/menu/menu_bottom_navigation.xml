@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottom_navigation_weather"
+        android:enabled="true"
+        android:icon="@drawable/ic_sunny_black_24dp"
+        android:title="@string/bottom_navigation_weather"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottom_navigation_comment"
+        android:enabled="true"
+        android:icon="@drawable/ic_comment_black_24dp"
+        android:title="@string/bottom_navigation_comment"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottom_navigation_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/bottom_navigation_settings"
+        app:showAsAction="ifRoom" />
+</menu>
