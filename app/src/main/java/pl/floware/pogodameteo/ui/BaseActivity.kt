@@ -22,9 +22,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract fun getLayoutId(): Int
 
-    protected abstract fun initDaggerComponent()
+    protected open fun initDaggerComponent() {}
 
-    protected abstract fun init()
+    protected open fun init() {}
     //endregion
 
     override fun onDestroy() {
@@ -32,9 +32,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    protected abstract fun clear()
+    protected open fun clear() {}
 
-    protected fun getAppComponent(): AppComponent {
+    fun getAppComponent(): AppComponent {
         try {
             return (application as MeteoApp).appComponent
         } catch (e: ClassCastException) {
