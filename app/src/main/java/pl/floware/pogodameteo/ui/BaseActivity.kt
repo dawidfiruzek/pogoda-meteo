@@ -38,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity() {
         try {
             return (application as MeteoApp).appComponent
         } catch (e: ClassCastException) {
-            throw ClassCastException("Application has to extends " + BaseMeteoApp::class.java.simpleName)
+            throw ClassCastException("Application has to extend " + BaseMeteoApp::class.java.simpleName)
         }
 
     }

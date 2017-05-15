@@ -42,7 +42,7 @@ abstract class BaseFragment : Fragment() {
         try {
             return (activity as BaseActivity).appComponent()
         } catch (e: ClassCastException) {
-            throw ClassCastException("Activity has to extends " + BaseActivity::class.java.simpleName)
+            throw ClassCastException("Activity has to extend " + BaseActivity::class.java.simpleName)
         }
 
     }
