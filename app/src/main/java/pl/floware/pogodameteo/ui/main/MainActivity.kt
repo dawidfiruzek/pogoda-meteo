@@ -71,7 +71,7 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
         val fragment = supportFragmentManager.findFragmentByTag(WeatherFragment.TAG)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, fragment ?: WeatherFragment.getInstance())
+                .replace(R.id.main_frame, fragment ?: WeatherFragment.getInstance(), WeatherFragment.TAG)
                 .commit()
     }
 

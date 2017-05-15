@@ -26,5 +26,5 @@ interface MainActivityComponent {
 class MainActivityModule {
 
     @Provides
-    fun providePresenter(compositeDisposable: CompositeDisposable): MainContract.Presenter = MainPresenter(compositeDisposable)
+    fun presenter(compositeDisposable: CompositeDisposable): MainContract.Presenter = MainPresenter(compositeDisposable)
 }
