@@ -6,7 +6,7 @@ import pl.floware.pogodameteo.ui.BaseFragment
 class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Router {
 
     companion object {
-        val TAG = WeatherFragment::class.java.simpleName
+        val TAG = WeatherFragment::class.java.simpleName!!
         fun getInstance() = WeatherFragment()
     }
 
