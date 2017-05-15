@@ -21,13 +21,14 @@ class MainPresenter(val compositeDisposable: CompositeDisposable)
 
         compositeDisposable.add(
                 Observable.merge(weather, comment, settings)
-                        .onErrorReturn { MainModel.weatherMainModel() }
-                        .subscribe({
+                        .onErrorReturn {
+                            Timber.e(it)
+                            MainModel.weatherMainModel()
+                        }
+                        .subscribe {
                             Timber.d(it.toString())
                             showMainModel(it)
-                        }, {
-                            Timber.e(it)
-                        })
+                        }
         )
     }
 
@@ -36,7 +37,6 @@ class MainPresenter(val compositeDisposable: CompositeDisposable)
             MainModelElement.WEATHER -> view?.showWeather()
             MainModelElement.COMMENT -> view?.showComment()
             MainModelElement.SETTINGS -> view?.showSettings()
-            else -> Timber.e("Invalid mainModel passed. Main model = %s", model)
         }
     }
 
