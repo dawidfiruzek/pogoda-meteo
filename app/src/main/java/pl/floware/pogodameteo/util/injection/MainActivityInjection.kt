@@ -3,9 +3,10 @@ package pl.floware.pogodameteo.util.injection
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import pl.floware.pogodameteo.ui.main.MainActivity
 import pl.floware.pogodameteo.ui.main.MainContract
-import pl.floware.pogodameteo.ui.main.MainPresenterImpl
+import pl.floware.pogodameteo.ui.main.MainPresenter
 import javax.inject.Scope
 
 @Scope
@@ -25,5 +26,5 @@ interface MainActivityComponent {
 class MainActivityModule {
 
     @Provides
-    fun providePresenter(): MainContract.Presenter = MainPresenterImpl()
+    fun providePresenter(compositeDisposable: CompositeDisposable): MainContract.Presenter = MainPresenter(compositeDisposable)
 }

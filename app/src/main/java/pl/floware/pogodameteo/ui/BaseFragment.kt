@@ -15,7 +15,7 @@ abstract class BaseFragment : Fragment() {
     lateinit var unbinder: Unbinder
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(getLayoutId(), container, false)
+        val view = inflater.inflate(layoutId(), container, false)
         unbinder = ButterKnife.bind(this, view)
 
         initDaggerComponent()
@@ -23,7 +23,7 @@ abstract class BaseFragment : Fragment() {
         return view
     }
 
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun layoutId(): Int
 
     protected open fun initDaggerComponent() {}
 
@@ -38,9 +38,9 @@ abstract class BaseFragment : Fragment() {
 
     protected open fun clear() {}
 
-    protected fun getAppComponent(): AppComponent {
+    protected fun appComponent(): AppComponent {
         try {
-            return (activity as BaseActivity).getAppComponent()
+            return (activity as BaseActivity).appComponent()
         } catch (e: ClassCastException) {
             throw ClassCastException("Activity has to extends " + BaseActivity::class.java.simpleName)
         }

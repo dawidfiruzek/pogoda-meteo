@@ -20,9 +20,9 @@ import javax.inject.Singleton
 interface AppComponent {
 
     //region AppModule
-    fun getConfiguration(): Configuration
-    fun getResourceProvider(): ResourceProvider
-    fun getCompositeDisposable(): CompositeDisposable
+    fun configuration(): Configuration
+    fun resourceProvider(): ResourceProvider
+    fun compositeDisposable(): CompositeDisposable
     //endregion
 }
 
@@ -30,14 +30,14 @@ interface AppComponent {
 class AppModule(val application: BaseMeteoApp) {
 
     @Provides
-    fun providePreferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+    fun preferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
     @Provides
-    fun provideConfiguration(sharedPreferences: SharedPreferences): Configuration = ConfigurationImpl(sharedPreferences)
+    fun configuration(sharedPreferences: SharedPreferences): Configuration = ConfigurationImpl(sharedPreferences)
 
     @Provides
-    fun provideResourceProvider(): ResourceProvider = ResourceProviderImpl(application)
+    fun resourceProvider(): ResourceProvider = ResourceProviderImpl(application)
 
     @Provides
-    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+    fun compositeDisposable(): CompositeDisposable = CompositeDisposable()
 }

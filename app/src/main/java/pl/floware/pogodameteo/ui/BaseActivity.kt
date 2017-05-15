@@ -13,14 +13,14 @@ abstract class BaseActivity : AppCompatActivity() {
     //region Init
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
+        setContentView(layoutId())
         ButterKnife.bind(this)
 
         initDaggerComponent()
         init()
     }
 
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun layoutId(): Int
 
     protected open fun initDaggerComponent() {}
 
@@ -34,7 +34,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun clear() {}
 
-    fun getAppComponent(): AppComponent {
+    fun appComponent(): AppComponent {
         try {
             return (application as MeteoApp).appComponent
         } catch (e: ClassCastException) {
