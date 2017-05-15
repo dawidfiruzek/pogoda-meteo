@@ -21,9 +21,12 @@ class MainPresenter(val compositeDisposable: CompositeDisposable)
 
         compositeDisposable.add(
                 Observable.merge(weather, comment, settings)
+                        .onErrorReturn { MainModel.weatherMainModel() }
                         .subscribe({
                             Timber.d(it.toString())
                             showMainModel(it)
+                        }, {
+                            Timber.e(it)
                         })
         )
     }
