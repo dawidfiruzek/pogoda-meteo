@@ -1,6 +1,6 @@
 package pl.floware.pogodameteo.ui.main
 
-class MainModel(
+data class MainModel(
         val mainModelElement: MainModelElement
 ) {
     companion object {
