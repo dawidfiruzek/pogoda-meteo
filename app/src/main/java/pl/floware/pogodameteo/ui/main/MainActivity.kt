@@ -1,12 +1,14 @@
 package pl.floware.pogodameteo.ui.main
 
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.view.MenuItem
 import butterknife.BindView
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.Observable
 import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseActivity
+import pl.floware.pogodameteo.ui.main.weather.WeatherFragment
 import pl.floware.pogodameteo.util.injection.DaggerMainActivityComponent
 import pl.floware.pogodameteo.util.injection.MainActivityModule
 import timber.log.Timber
@@ -66,17 +68,27 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
 
     override fun showWeather() {
         Timber.d("showing weather")
-        //todo show weather fragment
+        val fragment = supportFragmentManager.findFragmentByTag(WeatherFragment.TAG)
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, fragment ?: WeatherFragment.getInstance())
+                .commit()
     }
 
     override fun showComment() {
         Timber.d("showing comment")
         //todo show comment fragment
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, Fragment())
+                .commit()
     }
 
     override fun showSettings() {
         Timber.d("showing settings")
         //todo show settings fragment
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, Fragment())
+                .commit()
     }
     //endregion
 }

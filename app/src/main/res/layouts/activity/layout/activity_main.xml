@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context="pl.floware.pogodameteo.ui.main.MainActivity">
 
+    <FrameLayout
+        android:id="@+id/main_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/main_bottom_navigation"/>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bottom_navigation"
         android:layout_width="match_parent"
