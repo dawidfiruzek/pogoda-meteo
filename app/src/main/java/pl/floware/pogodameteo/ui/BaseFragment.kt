@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import pl.floware.pogodameteo.util.injection.app.AppComponent
+import pl.floware.pogodameteo.util.injection.AppComponent
 import java.lang.ClassCastException
-
 
 abstract class BaseFragment : Fragment() {
 

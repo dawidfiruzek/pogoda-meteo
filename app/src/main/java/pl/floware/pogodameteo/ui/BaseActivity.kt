@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import butterknife.ButterKnife
 import pl.floware.pogodameteo.BaseMeteoApp
 import pl.floware.pogodameteo.MeteoApp
-import pl.floware.pogodameteo.util.injection.app.AppComponent
+import pl.floware.pogodameteo.util.injection.AppComponent
 import java.lang.ClassCastException
 
 abstract class BaseActivity : AppCompatActivity() {

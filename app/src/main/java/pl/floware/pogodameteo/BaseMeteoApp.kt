@@ -1,9 +1,9 @@
 package pl.floware.pogodameteo
 
 import android.app.Application
-import pl.floware.pogodameteo.util.injection.app.AppComponent
-import pl.floware.pogodameteo.util.injection.app.AppModule
-import pl.floware.pogodameteo.util.injection.app.DaggerAppComponent
+import pl.floware.pogodameteo.util.injection.AppComponent
+import pl.floware.pogodameteo.util.injection.AppModule
+import pl.floware.pogodameteo.util.injection.DaggerAppComponent
 
 abstract class BaseMeteoApp : Application() {
 
