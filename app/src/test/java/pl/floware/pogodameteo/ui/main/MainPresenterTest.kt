@@ -68,19 +68,19 @@ class MainPresenterTest : BaseTest() {
 
     @Test
     fun weatherClicked_errorOccurred() {
-        weatherObservable.onError(IllegalStateException())
+        weatherObservable.onError(Exception())
         verify(view, times(1)).showWeather()
     }
 
     @Test
     fun commentClicked_errorOccurred() {
-        commentObservable.onError(IllegalStateException())
+        commentObservable.onError(Exception())
         verify(view, times(1)).showWeather()
     }
 
     @Test
     fun settingsClicked_errorOccurred() {
-        settingsObservable.onError(IllegalStateException())
+        settingsObservable.onError(Exception())
         verify(view, times(1)).showWeather()
     }
 }
