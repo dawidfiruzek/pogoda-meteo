@@ -5,35 +5,40 @@ import io.reactivex.disposables.CompositeDisposable
 import pl.floware.pogodameteo.ui.BasePresenter
 import timber.log.Timber
 
-class MainPresenter(
-        val mainInteractor: MainInteractor,
-        val compositeDisposable: CompositeDisposable)
+class MainPresenter(val compositeDisposable: CompositeDisposable)
     : BasePresenter<MainContract.View, MainContract.Router>(), MainContract.Presenter {
 
     override fun initBindings() {
-        val weather: Observable<MainViewModel> = getDeferObservable { view?.getWeatherClickedIntent() }
+        val weather: Observable<MainModel> = deferObservable { view?.weatherClickedObservable() }
                 .doOnNext { Timber.i("weather clicked") }
-                .flatMap { mainInteractor.getWeatherObservable() }
-                .onErrorReturn { MainViewModel.getErrorModel() }
-        val comment: Observable<MainViewModel> = getDeferObservable { view?.getCommentClickedIntent() }
+                .map { MainModel.weatherMainModel() }
+        val comment: Observable<MainModel> = deferObservable { view?.commentClickedObservable() }
                 .doOnNext { Timber.i("comment clicked") }
-                .flatMap{ mainInteractor.getCommentObservable() }
-                .onErrorReturn { MainViewModel.getErrorModel() }
-        val settings: Observable<MainViewModel> = getDeferObservable { view?.getSettingsClickedIntent() }
+                .map { MainModel.commentMainModel() }
+        val settings: Observable<MainModel> = deferObservable { view?.settingsClickedObservable() }
                 .doOnNext { Timber.i("settings clicked") }
-                .flatMap { mainInteractor.getSettingsObservable() }
-                .onErrorReturn { MainViewModel.getErrorModel() }
+                .map { MainModel.settingsMainModel() }
 
-        compositeDisposable.add(Observable.merge(weather, comment, settings)
-                .subscribe(
-                        { Timber.d(it.toString()) },
-                        { Timber.e(it) }))
+        compositeDisposable.add(
+                Observable.merge(weather, comment, settings)
+                        .subscribe({
+                            Timber.d(it.toString())
+                            showMainModel(it)
+                        })
+        )
+    }
 
-        //todo add state reducer with last state
+    private fun showMainModel(model: MainModel) {
+        when (model.mainModelElement) {
+            MainModelElement.WEATHER -> view?.showWeather()
+            MainModelElement.COMMENT -> view?.showComment()
+            MainModelElement.SETTINGS -> view?.showSettings()
+            else -> Timber.e("Invalid mainModel passed. Main model = %s", model)
+        }
     }
 
     override fun clear() {
-        compositeDisposable.clear()
         super.clear()
+        compositeDisposable.clear()
     }
 }

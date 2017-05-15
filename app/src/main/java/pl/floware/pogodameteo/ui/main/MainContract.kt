@@ -6,9 +6,13 @@ import pl.floware.pogodameteo.ui.BaseContract
 interface MainContract {
 
     interface View : BaseContract.View {
-        fun getWeatherClickedIntent(): Observable<Boolean>
-        fun getCommentClickedIntent(): Observable<Boolean>
-        fun getSettingsClickedIntent(): Observable<Boolean>
+        fun weatherClickedObservable(): Observable<Boolean>
+        fun commentClickedObservable(): Observable<Boolean>
+        fun settingsClickedObservable(): Observable<Boolean>
+
+        fun showWeather()
+        fun showComment()
+        fun showSettings()
     }
 
     interface Router : BaseContract.Router
