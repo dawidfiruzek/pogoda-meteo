@@ -48,7 +48,6 @@ class MainPresenterTest : BaseTest() {
         verifyNoMoreInteractions(view, router)
     }
 
-
     @Test
     fun weatherClicked_showWeather() {
         weatherObservable.onNext(true)
