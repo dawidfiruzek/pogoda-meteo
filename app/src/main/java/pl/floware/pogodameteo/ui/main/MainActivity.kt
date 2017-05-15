@@ -2,7 +2,6 @@ package pl.floware.pogodameteo.ui.main
 
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
-import android.view.View
 import butterknife.BindView
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.Observable
@@ -10,6 +9,7 @@ import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseActivity
 import pl.floware.pogodameteo.util.injection.DaggerMainActivityComponent
 import pl.floware.pogodameteo.util.injection.MainActivityModule
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
@@ -45,6 +45,7 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
         presenter.clear()
     }
 
+    //region View
     override fun weatherClickedObservable(): Observable<Boolean> {
         return bottomNavigationObservable
                 .map { it.itemId == R.id.bottom_navigation_weather }
@@ -62,4 +63,20 @@ class MainActivity : BaseActivity(), MainContract.View, MainContract.Router {
                 .map { it.itemId == R.id.bottom_navigation_settings }
                 .filter { it == true }
     }
+
+    override fun showWeather() {
+        Timber.d("showing weather")
+        //todo show weather fragment
+    }
+
+    override fun showComment() {
+        Timber.d("showing comment")
+        //todo show comment fragment
+    }
+
+    override fun showSettings() {
+        Timber.d("showing settings")
+        //todo show settings fragment
+    }
+    //endregion
 }

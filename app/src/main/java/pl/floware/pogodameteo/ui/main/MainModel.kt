@@ -1,13 +1,15 @@
 package pl.floware.pogodameteo.ui.main
 
 class MainModel(
-        val isWeatherVisible: Boolean = false,
-        val isCommentVisible: Boolean = false,
-        val isSettingsVisible: Boolean = false
+        val mainModelElement: MainModelElement
 ) {
     companion object {
-        fun weatherMainModel() = MainModel(true, false, false)
-        fun commentMainModel() = MainModel(false, true, false)
-        fun settingsMainModel() = MainModel(false, false, true)
+        fun weatherMainModel() = MainModel(MainModelElement.WEATHER)
+        fun commentMainModel() = MainModel(MainModelElement.COMMENT)
+        fun settingsMainModel() = MainModel(MainModelElement.SETTINGS)
     }
+}
+
+enum class MainModelElement {
+    WEATHER, COMMENT, SETTINGS
 }

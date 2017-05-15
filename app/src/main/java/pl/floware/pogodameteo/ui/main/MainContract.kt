@@ -9,6 +9,10 @@ interface MainContract {
         fun weatherClickedObservable(): Observable<Boolean>
         fun commentClickedObservable(): Observable<Boolean>
         fun settingsClickedObservable(): Observable<Boolean>
+
+        fun showWeather()
+        fun showComment()
+        fun showSettings()
     }
 
     interface Router : BaseContract.Router

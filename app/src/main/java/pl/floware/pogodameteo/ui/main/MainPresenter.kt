@@ -18,6 +18,27 @@ class MainPresenter(val compositeDisposable: CompositeDisposable)
         val settings: Observable<MainModel> = deferObservable { view?.settingsClickedObservable() }
                 .doOnNext { Timber.i("settings clicked") }
                 .map { MainModel.settingsMainModel() }
+
+        compositeDisposable.add(
+                Observable.merge(weather, comment, settings)
+                        .subscribe({
+                            Timber.d(it.toString())
+                            showMainModel(it)
+                        })
+        )
     }
 
+    private fun showMainModel(model: MainModel) {
+        when (model.mainModelElement) {
+            MainModelElement.WEATHER -> view?.showWeather()
+            MainModelElement.COMMENT -> view?.showComment()
+            MainModelElement.SETTINGS -> view?.showSettings()
+            else -> Timber.e("Invalid mainModel passed. Main model = %s", model)
+        }
+    }
+
+    override fun clear() {
+        super.clear()
+        compositeDisposable.clear()
+    }
 }
