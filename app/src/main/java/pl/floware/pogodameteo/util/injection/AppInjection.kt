@@ -15,9 +15,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-        modules = arrayOf(
-                AppModule::class
-        )
+        modules = arrayOf(AppModule::class)
 )
 interface AppComponent {
 

@@ -32,8 +32,8 @@ abstract class BaseFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        unbinder.unbind()
         clear()
+        unbinder.unbind()
     }
 
     protected open fun clear() {}
