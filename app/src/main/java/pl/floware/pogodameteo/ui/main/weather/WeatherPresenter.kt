@@ -6,8 +6,7 @@ import pl.floware.pogodameteo.ui.BasePresenter
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
 import timber.log.Timber
 
-class WeatherPresenter(val imageInteractor: ImageInteractor,
-                       val compositeDisposable: CompositeDisposable)
+class WeatherPresenter(val imageInteractor: ImageInteractor, val compositeDisposable: CompositeDisposable)
     : BasePresenter<WeatherContract.View, WeatherContract.Router>(), WeatherContract.Presenter{
 
     override fun initBindings() {
