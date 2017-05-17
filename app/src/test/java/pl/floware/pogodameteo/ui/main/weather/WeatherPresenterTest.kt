@@ -42,8 +42,7 @@ class WeatherPresenterTest : BaseTest() {
         Mockito.verify(view, Mockito.times(1)).getButtonClickedObservable()
     }
 
-    @After
-    fun tearDown() {
+    override fun tearDown() {
         presenter.clear()
         Mockito.verifyNoMoreInteractions(view, router)
     }

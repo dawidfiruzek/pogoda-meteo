@@ -42,8 +42,7 @@ class MainPresenterTest : BaseTest() {
         verify(view, times(1)).settingsClickedObservable()
     }
 
-    @After
-    fun tearDown() {
+    override fun tearDown() {
         presenter.clear()
         verifyNoMoreInteractions(view, router)
     }
