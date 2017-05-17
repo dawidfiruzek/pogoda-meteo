@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import pl.floware.pogodameteo.ui.main.weather.WeatherContract
 import pl.floware.pogodameteo.ui.main.weather.WeatherFragment
 import pl.floware.pogodameteo.ui.main.weather.WeatherPresenter
+import pl.floware.pogodameteo.util.interactor.ImageInteractor
 import javax.inject.Scope
 
 @Scope
@@ -26,6 +27,7 @@ interface WeatherFragmentComponent {
 class WeatherFragmentModule {
 
     @Provides
-    fun presenter(compositeDisposable: CompositeDisposable): WeatherContract.Presenter
-            = WeatherPresenter(compositeDisposable)
+    fun presenter(imageInteractor: ImageInteractor,
+                  compositeDisposable: CompositeDisposable): WeatherContract.Presenter
+            = WeatherPresenter(imageInteractor, compositeDisposable)
 }
