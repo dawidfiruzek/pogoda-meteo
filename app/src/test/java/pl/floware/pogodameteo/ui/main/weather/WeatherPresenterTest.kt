@@ -1,7 +1,6 @@
 package pl.floware.pogodameteo.ui.main.weather
 
 import io.reactivex.subjects.PublishSubject
-import org.junit.After
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
@@ -58,11 +57,13 @@ class WeatherPresenterTest : BaseTest() {
     fun buttonClicked_clickError() {
         clicksObservable.onError(Exception())
         dogeObservable.onNext("test")
+        Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
     }
 
     @Test
     fun buttonClicked_dogeError() {
         clicksObservable.onNext(true)
         dogeObservable.onError(Exception())
+        Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
     }
 }

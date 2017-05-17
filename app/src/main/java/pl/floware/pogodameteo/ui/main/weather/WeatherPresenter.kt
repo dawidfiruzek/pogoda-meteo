@@ -15,16 +15,19 @@ class WeatherPresenter(val imageInteractor: ImageInteractor, val compositeDispos
                 .observeOn(AndroidSchedulers.mainThread())
 
         compositeDisposable.add(images
+                .map { WeatherModel.successWeatherModel(it) }
+                .onErrorReturn {
+                    Timber.e(it)
+                    WeatherModel.errorWeatherModel()
+                }
                 .subscribe({
                     showImage(it)
-                }, {
-                    Timber.e(it)
                 }))
     }
 
-    private fun showImage(image: String) {
-        Timber.d(image)
-        view?.showImage(image)
+    private fun showImage(weatherModel: WeatherModel) {
+        Timber.d(weatherModel.toString())
+        view?.showImage(weatherModel.photoUrl)
     }
 
     override fun clear() {
