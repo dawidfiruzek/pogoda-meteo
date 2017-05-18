@@ -87,6 +87,7 @@ dependencies {
     //RxBinding
     compile "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding_version"
     compile "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxbinding_version"
+    compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding_version"
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 }

@@ -4,6 +4,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import pl.floware.pogodameteo.ui.main.weather.WeatherContract
 import pl.floware.pogodameteo.ui.main.weather.WeatherFragment
 import pl.floware.pogodameteo.ui.main.weather.WeatherPresenter
@@ -30,4 +31,7 @@ class WeatherFragmentModule {
     fun presenter(imageInteractor: ImageInteractor,
                   compositeDisposable: CompositeDisposable): WeatherContract.Presenter
             = WeatherPresenter(imageInteractor, compositeDisposable)
+
+    @Provides
+    fun publishSubject(): PublishSubject<Boolean> = PublishSubject.create()
 }

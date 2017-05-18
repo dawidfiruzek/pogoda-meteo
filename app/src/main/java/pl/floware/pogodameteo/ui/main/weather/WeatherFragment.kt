@@ -1,11 +1,13 @@
 package pl.floware.pogodameteo.ui.main.weather
 
-import android.widget.Button
+import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.ImageView
 import butterknife.BindView
-import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseFragment
 import pl.floware.pogodameteo.util.injection.DaggerWeatherFragmentComponent
@@ -22,8 +24,14 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
     @BindView(R.id.weather_image)
     lateinit var image: ImageView
 
+    @BindView(R.id.weather_refresh)
+    lateinit var swipeToRefresh: SwipeRefreshLayout
+
     @Inject
     lateinit var presenter: WeatherContract.Presenter
+
+    @Inject
+    lateinit var publishSubject: PublishSubject<Boolean>
 
     override fun layoutId() = R.layout.fragment_weather
 
@@ -42,18 +50,34 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
         presenter.initBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        publishSubject.onNext(true)
+    }
+
     override fun clear() {
         super.clear()
         presenter.clear()
+        Picasso.with(context)
+                .cancelRequest(image)
     }
 
     //region View
-    override fun getRefreshObservable(): Observable<Any> = Observable.fromCallable { onResume() }
+    override fun getRefreshObservable(): Observable<Any> =
+            Observable.merge(publishSubject, RxSwipeRefreshLayout.refreshes(swipeToRefresh))
 
     override fun showImage(url: String) {
         Picasso.with(context)
                 .load(url)
-                .into(image)
+                .into(image, object : Callback {
+                    override fun onSuccess() {
+                        swipeToRefresh.isRefreshing = false
+                    }
+
+                    override fun onError() {
+                        swipeToRefresh.isRefreshing = false
+                    }
+                })
     }
     //endregion
 }
