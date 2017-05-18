@@ -23,6 +23,8 @@ class MainPresenterTest : BaseTest() {
 
     override fun setup() {
         super.setup()
+        trampolineRxPlugin()
+
         presenter = MainPresenter(compositeDisposable)
         presenter.attachView(view)
         presenter.attachRouter(router)

@@ -26,6 +26,8 @@ class WeatherPresenterTest : BaseTest() {
 
     override fun setup() {
         super.setup()
+        trampolineRxPlugin()
+
         presenter = WeatherPresenter(interactor, compositeDisposable)
         presenter.attachView(view)
         presenter.attachRouter(router)

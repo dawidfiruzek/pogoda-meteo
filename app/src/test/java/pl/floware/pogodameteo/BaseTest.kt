@@ -15,12 +15,9 @@ abstract class BaseTest {
     protected lateinit var compositeDisposable: CompositeDisposable
 
     @Before
-    open fun setup() {
-        initRxPlugin()
-        MockitoAnnotations.initMocks(this)
-    }
+    open fun setup() = MockitoAnnotations.initMocks(this)
 
-    private fun initRxPlugin() {
+    protected fun trampolineRxPlugin() {
         RxAndroidPlugins.setMainThreadSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
