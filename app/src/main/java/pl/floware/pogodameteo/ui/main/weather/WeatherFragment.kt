@@ -19,9 +19,6 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
         fun getInstance() = WeatherFragment()
     }
 
-    @BindView(R.id.weather_button)
-    lateinit var button: Button
-
     @BindView(R.id.weather_image)
     lateinit var image: ImageView
 
@@ -51,7 +48,7 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
     }
 
     //region View
-    override fun getButtonClickedObservable(): Observable<Any> = RxView.clicks(button)
+    override fun getRefreshObservable(): Observable<Any> = Observable.fromCallable { onResume() }
 
     override fun showImage(url: String) {
         Picasso.with(context)

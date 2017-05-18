@@ -6,7 +6,7 @@ import pl.floware.pogodameteo.ui.BaseContract
 interface WeatherContract {
 
     interface View : BaseContract.View {
-        fun getButtonClickedObservable(): Observable<Any>
+        fun getRefreshObservable(): Observable<Any>
 
         fun showImage(url: String)
     }

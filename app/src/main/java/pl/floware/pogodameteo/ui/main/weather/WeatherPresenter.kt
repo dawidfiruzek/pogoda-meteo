@@ -10,7 +10,7 @@ class WeatherPresenter(val imageInteractor: ImageInteractor, val compositeDispos
     : BasePresenter<WeatherContract.View, WeatherContract.Router>(), WeatherContract.Presenter{
 
     override fun initBindings() {
-        val images = deferObservable { view?.getButtonClickedObservable() }
+        val images = deferObservable { view?.getRefreshObservable() }
                 .flatMap { imageInteractor.imageObservable() }
                 .observeOn(AndroidSchedulers.mainThread())
 
