@@ -44,6 +44,8 @@ class WeatherPresenterTest : BaseTest() {
     }
 
     override fun tearDown() {
+        super.tearDown()
+
         presenter.clear()
         Mockito.verifyNoMoreInteractions(view, router)
     }

@@ -45,6 +45,8 @@ class MainPresenterTest : BaseTest() {
     }
 
     override fun tearDown() {
+        super.tearDown()
+
         presenter.clear()
         verifyNoMoreInteractions(view, router)
     }
