@@ -11,6 +11,12 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -53,9 +59,11 @@ android {
         unitTests.returnDefaultValues = true
     }
 }
+
 kapt {
     generateStubs = true
 }
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -90,4 +98,6 @@ dependencies {
     compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding_version"
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+    //PhotoView
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }

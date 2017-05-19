@@ -1,10 +1,7 @@
 package pl.floware.pogodameteo.ui.main.weather
 
-import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.ImageView
 import butterknife.BindView
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -23,9 +20,6 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
 
     @BindView(R.id.weather_image)
     lateinit var image: ImageView
-
-    @BindView(R.id.weather_refresh)
-    lateinit var swipeToRefresh: SwipeRefreshLayout
 
     @Inject
     lateinit var presenter: WeatherContract.Presenter
@@ -63,21 +57,12 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
     }
 
     //region View
-    override fun getRefreshObservable(): Observable<Any> =
-            Observable.merge(publishSubject, RxSwipeRefreshLayout.refreshes(swipeToRefresh))
+    override fun getRefreshObservable(): Observable<Any> = publishSubject.map {  }
 
     override fun showImage(url: String) {
         Picasso.with(context)
                 .load(url)
-                .into(image, object : Callback {
-                    override fun onSuccess() {
-                        swipeToRefresh.isRefreshing = false
-                    }
-
-                    override fun onError() {
-                        swipeToRefresh.isRefreshing = false
-                    }
-                })
+                .into(image)
     }
     //endregion
 }
