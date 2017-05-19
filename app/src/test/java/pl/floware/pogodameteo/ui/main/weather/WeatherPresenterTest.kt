@@ -2,7 +2,6 @@ package pl.floware.pogodameteo.ui.main.weather
 
 import io.reactivex.subjects.PublishSubject
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito
 import pl.floware.pogodameteo.BaseTest
@@ -21,8 +20,8 @@ class WeatherPresenterTest : BaseTest() {
 
     private lateinit var presenter: WeatherContract.Presenter
 
-    private lateinit var clicksObservable: PublishSubject<Any>
-    private lateinit var dogeObservable: PublishSubject<String>
+    private lateinit var refreshObservable: PublishSubject<Any>
+    private lateinit var imageObservable: PublishSubject<String>
 
     override fun setup() {
         super.setup()
@@ -32,15 +31,15 @@ class WeatherPresenterTest : BaseTest() {
         presenter.attachView(view)
         presenter.attachRouter(router)
 
-        clicksObservable = PublishSubject.create()
-        dogeObservable = PublishSubject.create()
+        refreshObservable = PublishSubject.create()
+        imageObservable = PublishSubject.create()
 
-        Mockito.`when`(view.getButtonClickedObservable()).thenReturn(clicksObservable)
-        Mockito.`when`(interactor.imageObservable()).thenReturn(dogeObservable)
+        Mockito.`when`(view.getRefreshObservable()).thenReturn(refreshObservable)
+        Mockito.`when`(interactor.imageObservable()).thenReturn(imageObservable)
 
         presenter.initBindings()
 
-        Mockito.verify(view, Mockito.times(1)).getButtonClickedObservable()
+        Mockito.verify(view, Mockito.times(1)).getRefreshObservable()
     }
 
     override fun tearDown() {
@@ -51,23 +50,24 @@ class WeatherPresenterTest : BaseTest() {
     }
 
     @Test
-    fun buttonClicked_showDoges() {
-        clicksObservable.onNext(true)
-        dogeObservable.onNext("test")
-        Mockito.verify(view, Mockito.times(1)).showImage(anyString())
+    fun refresh_showImage() {
+        val url = "test"
+        refreshObservable.onNext(true)
+        imageObservable.onNext(url)
+        Mockito.verify(view, Mockito.times(1)).showImage(url)
     }
 
     @Test
-    fun buttonClicked_clickError() {
-        clicksObservable.onError(Exception())
-        dogeObservable.onNext("test")
+    fun refresh_refreshError() {
+        refreshObservable.onError(Exception())
+        imageObservable.onNext("test")
         Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
     }
 
     @Test
-    fun buttonClicked_dogeError() {
-        clicksObservable.onNext(true)
-        dogeObservable.onError(Exception())
+    fun refresh_imageError() {
+        refreshObservable.onNext(true)
+        imageObservable.onError(Exception())
         Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
     }
 }
