@@ -1,5 +1,6 @@
 package pl.floware.pogodameteo.util.injection
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import dagger.Component
@@ -38,6 +39,9 @@ interface AppComponent {
 
 @Module
 class AppModule(val application: BaseMeteoApp) {
+
+    @Provides
+    fun context(): Context = application
 
     @Provides
     fun preferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
