@@ -4,34 +4,35 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.ObservableEmitter
 
-class LocationInteractorImpl(val locationManager: LocationManager, val publishSubject: PublishSubject<Location>) : LocationInteractor {
 
-    val locationListener = object : LocationListener {
-        override fun onLocationChanged(location: android.location.Location) {
-            publishSubject.onNext(Location(location.latitude, location.longitude))
-            locationManager.removeUpdates(this)
+class LocationInteractorImpl(val locationManager: LocationManager) : LocationInteractor {
+
+    val observable: Observable<Location> = Observable.create { emitter: ObservableEmitter<Location> ->
+        val locationListener = object : LocationListener {
+            override fun onLocationChanged(location: android.location.Location) {
+                emitter.onNext(Location(location.latitude, location.longitude))
+                locationManager.removeUpdates(this)
+            }
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+            override fun onProviderEnabled(provider: String?) {}
+
+            override fun onProviderDisabled(provider: String?) = emitter.onError(Exception("LocationProvider is disabled"))
         }
 
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-        override fun onProviderEnabled(provider: String?) {}
-
-        override fun onProviderDisabled(provider: String?) = publishSubject.onError(Exception("LocationProvider is disabled"))
-    }
-
-    override fun requestLocation() {
         val location: android.location.Location? = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
         if (location != null) {
-            publishSubject.onNext(Location(location.latitude, location.longitude))
+            emitter.onNext(Location(location.latitude, location.longitude))
         } else if (networkEnabled()) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, locationListener)
         } else if (gpsEnabled()) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
         } else {
-            publishSubject.onError(Exception("Failed to request location"))
+            emitter.onError(Exception("Failed to request location"))
         }
     }
 
@@ -39,7 +40,5 @@ class LocationInteractorImpl(val locationManager: LocationManager, val publishSu
 
     private fun gpsEnabled() = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-    override fun locationObservable(): Observable<Location> {
-        return publishSubject
-    }
+    override fun locationObservable(): Observable<Location> = observable
 }

@@ -18,10 +18,7 @@ class InteractorModule {
     @Provides
     fun locationManager(appContext: Context): LocationManager = appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-    @Provides
-    fun locationPublishSubject(): PublishSubject<Location> = PublishSubject.create()
-
     @Singleton
     @Provides
-    fun locationInteractor(locationManager: LocationManager, publishSubject: PublishSubject<Location>): LocationInteractor = LocationInteractorImpl(locationManager, publishSubject)
+    fun locationInteractor(locationManager: LocationManager): LocationInteractor = LocationInteractorImpl(locationManager)
 }
