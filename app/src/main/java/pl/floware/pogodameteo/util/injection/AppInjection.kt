@@ -13,11 +13,14 @@ import pl.floware.pogodameteo.util.configuration.ResourceProvider
 import pl.floware.pogodameteo.util.configuration.ResourceProviderImpl
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
 import pl.floware.pogodameteo.util.interactor.ImageInteractorImpl
+import pl.floware.pogodameteo.util.interactor.LocationInteractor
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-        modules = arrayOf(AppModule::class)
+        modules = arrayOf(
+                AppModule::class,
+                InteractorModule::class)
 )
 interface AppComponent {
 
@@ -25,7 +28,11 @@ interface AppComponent {
     fun configuration(): Configuration
     fun resourceProvider(): ResourceProvider
     fun compositeDisposable(): CompositeDisposable
+    //endregion
+
+    //region InteractorModule
     fun imageInteractor(): ImageInteractor
+    fun locationInteractor(): LocationInteractor
     //endregion
 }
 
@@ -43,8 +50,4 @@ class AppModule(val application: BaseMeteoApp) {
 
     @Provides
     fun compositeDisposable(): CompositeDisposable = CompositeDisposable()
-
-    @Singleton
-    @Provides
-    fun imageInteractor(): ImageInteractor = ImageInteractorImpl()
 }
