@@ -9,6 +9,7 @@ import pl.floware.pogodameteo.ui.main.weather.WeatherContract
 import pl.floware.pogodameteo.ui.main.weather.WeatherFragment
 import pl.floware.pogodameteo.ui.main.weather.WeatherPresenter
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
+import pl.floware.pogodameteo.util.interactor.LocationInteractor
 import javax.inject.Scope
 
 @Scope
@@ -29,8 +30,9 @@ class WeatherFragmentModule {
 
     @Provides
     fun presenter(imageInteractor: ImageInteractor,
+                  locationInteractor: LocationInteractor,
                   compositeDisposable: CompositeDisposable): WeatherContract.Presenter
-            = WeatherPresenter(imageInteractor, compositeDisposable)
+            = WeatherPresenter(imageInteractor, locationInteractor, compositeDisposable)
 
     @Provides
     fun publishSubject(): PublishSubject<Boolean> = PublishSubject.create()

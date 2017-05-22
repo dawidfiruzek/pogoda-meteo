@@ -1,14 +1,17 @@
 package pl.floware.pogodameteo.ui.main.weather
 
+import android.Manifest
 import android.widget.ImageView
 import butterknife.BindView
 import com.squareup.picasso.Picasso
+import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import pl.floware.pogodameteo.R
 import pl.floware.pogodameteo.ui.BaseFragment
 import pl.floware.pogodameteo.util.injection.DaggerWeatherFragmentComponent
 import pl.floware.pogodameteo.util.injection.WeatherFragmentModule
+import timber.log.Timber
 import javax.inject.Inject
 
 class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Router {
@@ -46,7 +49,15 @@ class WeatherFragment : BaseFragment(), WeatherContract.View, WeatherContract.Ro
 
     override fun onResume() {
         super.onResume()
-        publishSubject.onNext(true)
+        RxPermissions(activity)
+                .request(Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe({
+                    if (it) {
+                        publishSubject.onNext(true)
+                    } else {
+                        Timber.d("not granted")
+                    }
+                })
     }
 
     override fun clear() {

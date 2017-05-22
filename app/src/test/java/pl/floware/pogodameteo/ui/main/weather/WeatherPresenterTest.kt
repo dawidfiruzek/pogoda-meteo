@@ -3,9 +3,11 @@ package pl.floware.pogodameteo.ui.main.weather
 import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import pl.floware.pogodameteo.BaseTest
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
+import pl.floware.pogodameteo.util.interactor.Location
+import pl.floware.pogodameteo.util.interactor.LocationInteractor
 
 class WeatherPresenterTest : BaseTest() {
 
@@ -13,61 +15,81 @@ class WeatherPresenterTest : BaseTest() {
     private lateinit var view: WeatherContract.View
 
     @Mock
-    private lateinit var interactor: ImageInteractor
+    private lateinit var router: WeatherContract.Router
 
     @Mock
-    private lateinit var router: WeatherContract.Router
+    private lateinit var imageInteractor: ImageInteractor
+
+    @Mock
+    private lateinit var locationIteractor: LocationInteractor
+
+    @Mock
+    private lateinit var location: Location
 
     private lateinit var presenter: WeatherContract.Presenter
 
     private lateinit var refreshObservable: PublishSubject<Any>
     private lateinit var imageObservable: PublishSubject<String>
+    private lateinit var locationObservable: PublishSubject<Location>
 
     override fun setup() {
         super.setup()
         trampolineRxPlugin()
 
-        presenter = WeatherPresenter(interactor, compositeDisposable)
+        presenter = WeatherPresenter(imageInteractor, locationIteractor, compositeDisposable)
         presenter.attachView(view)
         presenter.attachRouter(router)
 
         refreshObservable = PublishSubject.create()
         imageObservable = PublishSubject.create()
+        locationObservable = PublishSubject.create()
 
-        Mockito.`when`(view.getRefreshObservable()).thenReturn(refreshObservable)
-        Mockito.`when`(interactor.imageObservable()).thenReturn(imageObservable)
+        `when`(view.getRefreshObservable()).thenReturn(refreshObservable)
+        `when`(imageInteractor.imageObservable()).thenReturn(imageObservable)
+        `when`(locationIteractor.locationObservable()).thenReturn(locationObservable)
 
         presenter.initBindings()
 
-        Mockito.verify(view, Mockito.times(1)).getRefreshObservable()
+        verify(view, times(1)).getRefreshObservable()
     }
 
     override fun tearDown() {
         super.tearDown()
 
         presenter.clear()
-        Mockito.verifyNoMoreInteractions(view, router)
+        verifyNoMoreInteractions(view, router)
     }
 
     @Test
     fun refresh_showImage() {
         val url = "test"
         refreshObservable.onNext(true)
+        locationObservable.onNext(location)
         imageObservable.onNext(url)
-        Mockito.verify(view, Mockito.times(1)).showImage(url)
+        verify(view, times(1)).showImage(url)
     }
 
     @Test
     fun refresh_refreshError() {
         refreshObservable.onError(Exception())
+        locationObservable.onNext(location)
         imageObservable.onNext("test")
-        Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
     @Test
     fun refresh_imageError() {
         refreshObservable.onNext(true)
+        locationObservable.onNext(location)
         imageObservable.onError(Exception())
-        Mockito.verify(view, Mockito.times(1)).showImage(WeatherModel.errorUrl)
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
+    }
+
+    @Test
+    fun refresh_locationError() {
+        refreshObservable.onNext(true)
+        locationObservable.onError(Exception())
+        imageObservable.onNext("test")
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 }

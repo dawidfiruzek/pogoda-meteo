@@ -5,14 +5,17 @@ import android.location.LocationManager
 import android.os.Bundle
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
-
+import timber.log.Timber
 
 class LocationInteractorImpl(val locationManager: LocationManager) : LocationInteractor {
 
     val observable: Observable<Location> = Observable.create { emitter: ObservableEmitter<Location> ->
         val locationListener = object : LocationListener {
             override fun onLocationChanged(location: android.location.Location) {
-                emitter.onNext(Location(location.latitude, location.longitude))
+                val l = Location(location.latitude, location.longitude)
+                Timber.d("Using new location $l")
+                emitter.onNext(l)
+                emitter.onComplete()
                 locationManager.removeUpdates(this)
             }
 
@@ -26,7 +29,10 @@ class LocationInteractorImpl(val locationManager: LocationManager) : LocationInt
         val location: android.location.Location? = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
         if (location != null) {
-            emitter.onNext(Location(location.latitude, location.longitude))
+            val l = Location(location.latitude, location.longitude)
+            Timber.d("Using last location $l")
+            emitter.onNext(l)
+            emitter.onComplete()
         } else if (networkEnabled()) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, locationListener)
         } else if (gpsEnabled()) {
