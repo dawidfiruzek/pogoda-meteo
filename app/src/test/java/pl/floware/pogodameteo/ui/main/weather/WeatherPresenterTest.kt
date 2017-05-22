@@ -5,8 +5,8 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import pl.floware.pogodameteo.BaseTest
+import pl.floware.pogodameteo.data.Location
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
-import pl.floware.pogodameteo.util.interactor.Location
 import pl.floware.pogodameteo.util.interactor.LocationInteractor
 
 class WeatherPresenterTest : BaseTest() {

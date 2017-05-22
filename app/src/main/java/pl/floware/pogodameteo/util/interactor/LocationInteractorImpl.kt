@@ -5,6 +5,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import pl.floware.pogodameteo.data.Location
 import timber.log.Timber
 
 class LocationInteractorImpl(val locationManager: LocationManager) : LocationInteractor {
