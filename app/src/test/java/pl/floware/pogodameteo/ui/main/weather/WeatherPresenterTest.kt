@@ -78,9 +78,25 @@ class WeatherPresenterTest : BaseTest() {
     }
 
     @Test
-    fun refresh_imageError() {
-        refreshObservable.onNext(true)
+    fun refresh_refreshLocationError() {
+        refreshObservable.onError(Exception())
+        locationObservable.onError(Exception())
+        imageObservable.onNext("test")
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
+    }
+
+    @Test
+    fun refresh_refreshImageError() {
+        refreshObservable.onError(Exception())
         locationObservable.onNext(location)
+        imageObservable.onError(Exception())
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
+    }
+
+    @Test
+    fun refresh_refreshAllError() {
+        refreshObservable.onError(Exception())
+        locationObservable.onError(Exception())
         imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
@@ -90,6 +106,22 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable.onNext(true)
         locationObservable.onError(Exception())
         imageObservable.onNext("test")
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
+    }
+
+    @Test
+    fun refresh_locationImageError() {
+        refreshObservable.onNext(true)
+        locationObservable.onError(Exception())
+        imageObservable.onError(Exception())
+        verify(view, times(1)).showImage(WeatherModel.errorUrl)
+    }
+
+    @Test
+    fun refresh_imageError() {
+        refreshObservable.onNext(true)
+        locationObservable.onNext(location)
+        imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 }
