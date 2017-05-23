@@ -15,6 +15,7 @@ import pl.floware.pogodameteo.util.configuration.ResourceProviderImpl
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
 import pl.floware.pogodameteo.util.interactor.ImageInteractorImpl
 import pl.floware.pogodameteo.util.interactor.LocationInteractor
+import pl.floware.pogodameteo.util.interactor.WeatherInteractor
 import javax.inject.Singleton
 
 @Singleton
@@ -34,6 +35,7 @@ interface AppComponent {
     //region InteractorModule
     fun imageInteractor(): ImageInteractor
     fun locationInteractor(): LocationInteractor
+    fun weatherInteractor(): WeatherInteractor
     //endregion
 }
 

@@ -15,10 +15,15 @@ class InteractorModule {
     @Provides
     fun imageInteractor(): ImageInteractor = ImageInteractorImpl()
 
+    @Singleton
     @Provides
     fun locationManager(appContext: Context): LocationManager = appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     @Singleton
     @Provides
     fun locationInteractor(locationManager: LocationManager): LocationInteractor = LocationInteractorImpl(locationManager)
+
+    @Singleton
+    @Provides
+    fun weatherInteractor(): WeatherInteractor = WeatherInteractorImpl()
 }

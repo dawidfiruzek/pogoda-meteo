@@ -6,17 +6,20 @@ import io.reactivex.schedulers.Schedulers
 import pl.floware.pogodameteo.ui.BasePresenter
 import pl.floware.pogodameteo.util.interactor.ImageInteractor
 import pl.floware.pogodameteo.util.interactor.LocationInteractor
+import pl.floware.pogodameteo.util.interactor.WeatherInteractor
 import timber.log.Timber
 
 class WeatherPresenter(
         val imageInteractor: ImageInteractor,
         val locationInteractor: LocationInteractor,
+        val weatherInteractor: WeatherInteractor,
         val compositeDisposable: CompositeDisposable)
     : BasePresenter<WeatherContract.View, WeatherContract.Router>(), WeatherContract.Presenter{
 
     override fun initBindings() {
         val weather = deferObservable { view?.getRefreshObservable() }
                 .flatMap { locationInteractor.locationObservable() }
+                .flatMap { weatherInteractor.weatherObservable(it) }
                 .flatMap { imageInteractor.imageObservable() }
                 .map { WeatherModel.successWeatherModel(it) }
                 .subscribeOn(Schedulers.newThread())
