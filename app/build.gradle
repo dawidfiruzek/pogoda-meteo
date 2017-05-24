@@ -99,4 +99,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     //PhotoView
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    // jsoup HTML parser library @ http://jsoup.org/
+    compile 'org.jsoup:jsoup:1.10.2'
 }
