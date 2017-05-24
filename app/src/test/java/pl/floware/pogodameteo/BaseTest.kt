@@ -7,6 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.After
 import org.junit.Before
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 abstract class BaseTest {
@@ -30,4 +31,16 @@ abstract class BaseTest {
         RxAndroidPlugins.reset()
         RxJavaPlugins.reset()
     }
+
+    protected fun <T> any(): T {
+        Mockito.any<T>()
+        return uninitialized()
+    }
+
+    protected fun <T> any(c: Class<T>): T {
+        Mockito.any<T>(c)
+        return uninitialized()
+    }
+
+    private fun <T> uninitialized(): T = null as T
 }

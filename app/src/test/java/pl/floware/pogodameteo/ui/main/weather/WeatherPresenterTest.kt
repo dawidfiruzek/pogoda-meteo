@@ -61,11 +61,12 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable = PublishSubject.create()
         imageObservable = PublishSubject.create()
         locationObservable = PublishSubject.create()
+        weatherObservable = PublishSubject.create()
 
         `when`(view.getRefreshObservable()).thenReturn(refreshObservable)
         `when`(imageInteractor.imageObservable()).thenReturn(imageObservable)
         `when`(locationIteractor.locationObservable()).thenReturn(locationObservable)
-        `when`(weatherInteractor.weatherObservable(any())).thenReturn(weatherObservable)
+        `when`(weatherInteractor.weatherObservable(any(Location::class.java))).thenReturn(weatherObservable)
 
         presenter.initBindings()
 
