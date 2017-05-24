@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 class ImageInteractorImpl : ImageInteractor {
 
-    override fun imageObservable(): Observable<String> {
+    override fun imageObservable(weatherUrl: String): Observable<String> {
         return Observable.zip(
                 Observable.interval(0, 3000, TimeUnit.MILLISECONDS),
                 Observable.fromIterable(arrayListOf(

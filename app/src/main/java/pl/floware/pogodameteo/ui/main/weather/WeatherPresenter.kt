@@ -20,7 +20,7 @@ class WeatherPresenter(
         val weather = deferObservable { view?.getRefreshObservable() }
                 .flatMap { locationInteractor.locationObservable() }
                 .flatMap { weatherInteractor.weatherObservable(it) }
-                .flatMap { imageInteractor.imageObservable() }
+                .flatMap { imageInteractor.imageObservable(it) }
                 .map { WeatherModel.successWeatherModel(it) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

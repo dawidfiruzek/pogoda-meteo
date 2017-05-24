@@ -7,10 +7,10 @@ import timber.log.Timber
 
 class WeatherInteractorImpl : WeatherInteractor {
 
-    override fun weatherObservable(location: Location): Observable<Uri> =
+    override fun weatherObservable(location: Location): Observable<String> =
         Observable.fromCallable { weatherUri(location) }
 
-    private fun weatherUri(location: Location): Uri {
+    private fun weatherUri(location: Location): String {
         val uri = Uri.Builder()
                 .scheme("http")
                 .authority("www.meteo.pl")
@@ -22,6 +22,6 @@ class WeatherInteractorImpl : WeatherInteractor {
                 .build()
 
         Timber.d(uri.toString())
-        return uri
+        return uri.toString()
     }
 }

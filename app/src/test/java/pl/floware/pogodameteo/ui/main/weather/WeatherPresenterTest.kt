@@ -1,6 +1,5 @@
 package pl.floware.pogodameteo.ui.main.weather
 
-import android.net.Uri
 import io.reactivex.subjects.PublishSubject
 import org.junit.Assert
 import org.junit.Test
@@ -30,19 +29,18 @@ class WeatherPresenterTest : BaseTest() {
     private lateinit var weatherInteractor: WeatherInteractor
 
     @Mock
-    private lateinit var weatherUri: Uri
-
-    @Mock
     private lateinit var location: Location
 
     private lateinit var presenter: WeatherContract.Presenter
 
     private lateinit var refreshObservable: PublishSubject<Any>
+
     private lateinit var imageObservable: PublishSubject<String>
     private lateinit var locationObservable: PublishSubject<Location>
-    private lateinit var weatherObservable: PublishSubject<Uri>
+    private lateinit var weatherObservable: PublishSubject<String>
 
-    private lateinit var url: String
+    private lateinit var weatherUrl: String
+    private lateinit var imageUrl: String
 
     override fun setup() {
         super.setup()
@@ -56,7 +54,8 @@ class WeatherPresenterTest : BaseTest() {
         presenter.attachView(view)
         presenter.attachRouter(router)
 
-        url = "test"
+        weatherUrl = "weather"
+        imageUrl = "test"
 
         refreshObservable = PublishSubject.create()
         imageObservable = PublishSubject.create()
@@ -64,13 +63,13 @@ class WeatherPresenterTest : BaseTest() {
         weatherObservable = PublishSubject.create()
 
         `when`(view.getRefreshObservable()).thenReturn(refreshObservable)
-        `when`(imageInteractor.imageObservable()).thenReturn(imageObservable)
         `when`(locationIteractor.locationObservable()).thenReturn(locationObservable)
         `when`(weatherInteractor.weatherObservable(any(Location::class.java))).thenReturn(weatherObservable)
+        `when`(imageInteractor.imageObservable(any(String::class.java))).thenReturn(imageObservable)
 
         presenter.initBindings()
 
-        Assert.assertTrue(url != WeatherModel.errorUrl)
+        Assert.assertTrue(imageUrl != WeatherModel.errorUrl)
         verify(view, times(1)).getRefreshObservable()
     }
 
@@ -85,17 +84,17 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_showImage() {
         refreshObservable.onNext(true)
         locationObservable.onNext(location)
-        weatherObservable.onNext(weatherUri)
-        imageObservable.onNext(url)
-        verify(view, times(1)).showImage(url)
+        weatherObservable.onNext(weatherUrl)
+        imageObservable.onNext(imageUrl)
+        verify(view, times(1)).showImage(imageUrl)
     }
 
     @Test
     fun refresh_refreshError() {
         refreshObservable.onError(Exception())
         locationObservable.onNext(location)
-        weatherObservable.onNext(weatherUri)
-        imageObservable.onNext(url)
+        weatherObservable.onNext(weatherUrl)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -103,8 +102,8 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_refreshLocationError() {
         refreshObservable.onError(Exception())
         locationObservable.onError(Exception())
-        weatherObservable.onNext(weatherUri)
-        imageObservable.onNext(url)
+        weatherObservable.onNext(weatherUrl)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -113,7 +112,7 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable.onError(Exception())
         locationObservable.onNext(location)
         weatherObservable.onError(Exception())
-        imageObservable.onNext(url)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -121,7 +120,7 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_refreshImageError() {
         refreshObservable.onError(Exception())
         locationObservable.onNext(location)
-        weatherObservable.onNext(weatherUri)
+        weatherObservable.onNext(weatherUrl)
         imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
@@ -140,7 +139,7 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable.onError(Exception())
         locationObservable.onError(Exception())
         weatherObservable.onError(Exception())
-        imageObservable.onNext(url)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -148,7 +147,7 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_refreshLocationImageError() {
         refreshObservable.onError(Exception())
         locationObservable.onError(Exception())
-        weatherObservable.onNext(weatherUri)
+        weatherObservable.onNext(weatherUrl)
         imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
@@ -175,8 +174,8 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_locationError() {
         refreshObservable.onNext(true)
         locationObservable.onError(Exception())
-        weatherObservable.onNext(weatherUri)
-        imageObservable.onNext(url)
+        weatherObservable.onNext(weatherUrl)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -185,7 +184,7 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable.onNext(true)
         locationObservable.onError(Exception())
         weatherObservable.onError(Exception())
-        imageObservable.onNext(url)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -193,7 +192,7 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_locationImageError() {
         refreshObservable.onNext(true)
         locationObservable.onError(Exception())
-        weatherObservable.onNext(weatherUri)
+        weatherObservable.onNext(weatherUrl)
         imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
@@ -203,7 +202,7 @@ class WeatherPresenterTest : BaseTest() {
         refreshObservable.onNext(true)
         locationObservable.onNext(location)
         weatherObservable.onError(Exception())
-        imageObservable.onNext(url)
+        imageObservable.onNext(imageUrl)
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
 
@@ -220,7 +219,7 @@ class WeatherPresenterTest : BaseTest() {
     fun refresh_imageError() {
         refreshObservable.onNext(true)
         locationObservable.onNext(location)
-        weatherObservable.onNext(weatherUri)
+        weatherObservable.onNext(weatherUrl)
         imageObservable.onError(Exception())
         verify(view, times(1)).showImage(WeatherModel.errorUrl)
     }
