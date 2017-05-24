@@ -21,7 +21,7 @@ class WeatherInteractorImpl : WeatherInteractor {
                 .appendQueryParameter("EALL", location.longitude.toString())
                 .build()
 
-        Timber.e(uri.toString())
+        Timber.d(uri.toString())
         return uri
     }
 }
