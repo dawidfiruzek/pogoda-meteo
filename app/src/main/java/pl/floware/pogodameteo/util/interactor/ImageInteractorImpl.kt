@@ -1,24 +1,67 @@
 package pl.floware.pogodameteo.util.interactor
 
+import android.net.Uri
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import java.util.concurrent.TimeUnit
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 
 class ImageInteractorImpl : ImageInteractor {
 
-    override fun imageObservable(weatherUrl: String): Observable<String> {
-        return Observable.zip(
-                Observable.interval(0, 3000, TimeUnit.MILLISECONDS),
-                Observable.fromIterable(arrayListOf(
-                        "https://s-media-cache-ak0.pinimg.com/736x/3d/2b/bf/3d2bbfd73ccaf488ab88d298ab7bc2d8.jpg",
-                        "https://cdn.thinglink.me/api/image/727110550026190849/1240/10/scaletowidth",
-                        "http://img15.deviantart.net/97dd/i/2013/229/d/f/doge_squadron_by_shankidy-d6ijgat.png",
-                        "https://s-media-cache-ak0.pinimg.com/originals/ee/b7/71/eeb771122eebac79dda2eb99d43e3d82.jpg",
-                        "https://s-media-cache-ak0.pinimg.com/originals/24/a0/9e/24a09e49522b48d0f490de86b5d624da.jpg",
-                        "https://s-media-cache-ak0.pinimg.com/736x/55/f9/25/55f92575f958c607cf0467274d6b7539.jpg",
-                        "https://s-media-cache-ak0.pinimg.com/736x/b1/f0/7a/b1f07adfb3fb75f193b0762db7e8b090.jpg",
-                        "https://sites.google.com/a/suffieldstudent.org/doges-com/_/rsrc/1472846231221/types-of-doges/CORN%20DOGE.jpg?height=215&width=400")),
-                BiFunction { _, image -> image }
-        )
+    override fun imageObservable(weatherUrl: String): Observable<String> =
+            Observable.fromCallable { getMeteogramUri(weatherUrl).toString() }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+
+    fun getMeteogramUri(weatherUrl: String): Uri? {
+        val scriptFromHtmlCode = getScriptFromHtml(weatherUrl)
+        val variables = getVariablesFromScript(scriptFromHtmlCode)
+
+        var meteorogramParams: String? = null
+        while (variables.find()) {
+            meteorogramParams = variables.group()
+        }
+
+        if (meteorogramParams != null) {
+            //example result: var fcstdate = "2015062612";var ntype ="0n";var lang ="pl";var id="462";var act_x = 232;var act_y = 466;
+            meteorogramParams = formatMeteogramParams(meteorogramParams)
+            val meteogramImgAddress = getMeteogramImgAddress(meteorogramParams)
+            return Uri.parse(meteogramImgAddress)
+        } else {
+            return null
+        }
+    }
+
+    private fun getScriptFromHtml(weatherUrl: String): Element {
+        //todo get something in case of no script
+        val document = Jsoup.connect(weatherUrl).timeout(10000).get()
+        return document.select("script").last()
+    }
+
+    private fun getVariablesFromScript(scriptFromHtmlCode: Element): Matcher {
+        val pattern = Pattern.compile("(?s)var\\s??(.+?);var\\s??(.+?)ntype(.+?);\\n")
+        return pattern.matcher(scriptFromHtmlCode.html())
+    }
+
+    private fun formatMeteogramParams(meteorogramParams: String): String {
+        return meteorogramParams.replace("\"", "")
+                .replace(";var ", "&")
+                .replace("var ", "?")
+                .replace("fcstdate", "fdate")
+                .replace("act_x", "col")
+                .replace("act_y", "row")
+                .replace(" ", "")
+                .replace(";", "")
+    }
+
+    private fun getMeteogramImgAddress(meteorogramParams: String): String {
+        val meteorogramImg = StringBuilder("http://www.meteo.pl")
+        meteorogramImg.append("/um/metco/mgram_pict.php")
+        meteorogramImg.append(meteorogramParams)
+        return meteorogramImg.toString()
     }
 }
