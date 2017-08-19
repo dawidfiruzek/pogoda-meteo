@@ -23,6 +23,8 @@ class MainPresenterTest : BaseTest() {
 
     override fun setup() {
         super.setup()
+        trampolineRxPlugin()
+
         presenter = MainPresenter(compositeDisposable)
         presenter.attachView(view)
         presenter.attachRouter(router)
@@ -42,8 +44,9 @@ class MainPresenterTest : BaseTest() {
         verify(view, times(1)).settingsClickedObservable()
     }
 
-    @After
-    fun tearDown() {
+    override fun tearDown() {
+        super.tearDown()
+
         presenter.clear()
         verifyNoMoreInteractions(view, router)
     }

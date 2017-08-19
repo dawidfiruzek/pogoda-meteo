@@ -11,6 +11,12 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -49,10 +55,15 @@ android {
                     ]
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
+
 kapt {
     generateStubs = true
 }
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -72,7 +83,7 @@ dependencies {
     //Leak Canary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     //RxPermissions
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.8.0@aar'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     //Dagger2
     compile "com.google.dagger:dagger:$dagger2_version"
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
@@ -84,4 +95,10 @@ dependencies {
     //RxBinding
     compile "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding_version"
     compile "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxbinding_version"
+    //Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    //PhotoView
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    // jsoup HTML parser library @ http://jsoup.org/
+    compile 'org.jsoup:jsoup:1.10.2'
 }
