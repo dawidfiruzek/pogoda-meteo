@@ -1,1 +1,2 @@
-include ':app'
+include ':PogodaMeteo'
+project(':PogodaMeteo').projectDir = new File('app')
