@@ -1,19 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
 
 buildscript {
     ext.kotlin_version = '1.1.2-3'
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'io.fabric.tools:gradle:1.22.1'
     }
 }
 
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 
@@ -38,7 +42,11 @@ android {
         develop {
             applicationIdSuffix ".develop"
             versionNameSuffix "-develop"
-            resValue 'string', 'app_name', 'Pogoda Meteo-develop'
+            resValue 'string', 'app_name', 'Pogoda Meteo DEVELOP'
+        }
+        alpha {
+            versionNameSuffix "-alpha"
+            resValue 'string', 'app_name', 'Pogoda Meteo ALPHA'
         }
         full {
             resValue 'string', 'app_name', 'Pogoda Meteo'
@@ -73,6 +81,10 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
     testCompile 'junit:junit:4.12'
+    //Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
     //Mockito
     testCompile 'org.mockito:mockito-core:2.5.0'
     //ButterKnife
